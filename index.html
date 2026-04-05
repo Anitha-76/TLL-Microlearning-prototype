@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TLL Microlearning: Higher-Ed Learning Design</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:           #ffffff;
+  --bg-2:         #f5f5f3;
+  --bg-3:         #ebebea;
+  --text:         #1a1a1a;
+  --text-2:       #5c5c5c;
+  --text-3:       #9b9b9b;
+  --border:       rgba(0,0,0,0.09);
+  --border-2:     rgba(0,0,0,0.16);
+  --teal:         #1D9E75;
+  --teal-light:   #E0F4EC;
+  --teal-dark:    #0F6E56;
+  --teal-deeper:  #085041;
+  --amber-light:  #FEF3DC;
+  --amber-dark:   #7A4A0A;
+  --blue-light:   #E8F1FB;
+  --blue-dark:    #1557A0;
+  --coral-light:  #FBE9E5;
+  --coral-dark:   #922F15;
+  --purple-light: #EEE8FB;
+  --purple-dark:  #4A2DA8;
+  --warn-light:   #FEF3DC;
+  --warn-dark:    #5E3508;
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 18px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.09), 0 1px 4px rgba(0,0,0,0.06);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.08), 0 0 0 0.5px rgba(0,0,0,0.08);
+}
+
+body { font-family: var(--font); background: var(--bg-2); color: var(--text); line-height: 1.65; font-size: 16px; min-height: 100vh; }
+
+/* ── HEADER ── */
+.site-header { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); }
+.header-inner { max-width: 740px; margin: 0 auto; padding: 0.7rem 1.25rem; display: flex; align-items: center; gap: 12px; }
+.header-logo { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
+.header-logo-mark { width: 28px; height: 28px; border-radius: 7px; background: var(--teal); display: flex; align-items: center; justify-content: center; }
+.header-logo-text { font-size: 13px; font-weight: 600; color: var(--text); letter-spacing: -0.01em; }
+.header-divider { width: 1px; height: 16px; background: var(--border-2); flex-shrink: 0; }
+.header-module-name { font-size: 13px; color: var(--text-2); flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.header-progress-wrap { flex-shrink: 0; display: flex; align-items: center; gap: 7px; }
+.header-progress-bar { width: 80px; height: 4px; background: var(--bg-3); border-radius: 99px; overflow: hidden; }
+.header-progress-fill { height: 100%; background: var(--teal); border-radius: 99px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
+.header-progress-pct { font-size: 12px; font-weight: 500; color: var(--text-2); min-width: 30px; text-align: right; }
+
+/* ── SHELL ── */
+.module-shell { max-width: 740px; margin: 0 auto; padding: 2rem 1.25rem 5rem; }
+
+/* ── SECTIONS ── */
+.section { display: none; animation: fadeIn 0.3s ease forwards; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── ACT HEADER ── */
+.act-header { margin-bottom: 1.5rem; }
+.act-meta-row { display: flex; align-items: center; gap: 6px; margin-bottom: 0.55rem; }
+.act-num { font-size: 12px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; }
+.act-dot { color: var(--text-3); font-size: 12px; }
+.act-time { font-size: 12px; color: var(--text-3); }
+.act-title { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1.25; letter-spacing: -0.03em; margin-bottom: 0.45rem; }
+.act-subtitle { font-size: 15px; color: var(--text-2); line-height: 1.65; }
+
+/* ── OVERVIEW ── */
+.overview-intro { background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 100%); border-radius: var(--r-xl); padding: 1.75rem 1.5rem; color: white; margin-bottom: 1.5rem; box-shadow: var(--shadow-md); }
+.overview-intro-label { font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.75; margin-bottom: 0.4rem; }
+.overview-intro-title { font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.25; margin-bottom: 0.5rem; }
+.overview-intro-desc { font-size: 14px; opacity: 0.85; line-height: 1.65; }
+
+.activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 1.5rem; }
+.activity-card { background: var(--bg); border-radius: var(--r-lg); box-shadow: var(--shadow-card); padding: 1.1rem 1rem 1rem; cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; display: flex; flex-direction: column; gap: 0.6rem; }
+.activity-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.act-card-icon { width: 38px; height: 38px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; }
+.icon-cards   { background: var(--purple-light); }
+.icon-read    { background: var(--blue-light); }
+.icon-reflect { background: var(--teal-light); }
+.act-card-label { font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.05em; }
+.act-card-title { font-size: 14px; font-weight: 600; color: var(--text); line-height: 1.35; }
+.act-card-time { font-size: 12px; color: var(--text-3); }
+
+/* ── CONFIDENCE RATING ── */
+.confidence-wrap { margin-bottom: 1.25rem; }
+.confidence-label { font-size: 13px; font-weight: 600; color: var(--text-2); margin-bottom: 0.6rem; text-align: center; }
+.confidence-options { display: flex; gap: 8px; justify-content: center; }
+.conf-btn { padding: 6px 14px; border-radius: 99px; border: 1.5px solid var(--border-2); background: var(--bg); font-size: 13px; font-weight: 500; color: var(--text-2); cursor: pointer; transition: all 0.15s; font-family: var(--font); }
+.conf-btn:hover { border-color: var(--teal); color: var(--teal); background: var(--teal-light); }
+.conf-btn.selected { border-color: var(--teal); background: var(--teal); color: white; }
+.conf-btn.selected-low { border-color: var(--coral-dark); background: var(--coral-light); color: var(--coral-dark); }
+.conf-btn.selected-mid { border-color: var(--amber-dark); background: var(--amber-light); color: var(--amber-dark); }
+
+/* ── FLIP CARDS ── */
+.card-player { margin-bottom: 0.5rem; }
+.card-counter-row { text-align: center; font-size: 14px; font-weight: 500; color: var(--text-2); margin-bottom: 0.9rem; }
+.card-player-row { display: flex; align-items: center; gap: 14px; margin-bottom: 1rem; }
+
+.card-nav-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: none; cursor: pointer; padding: 4px 0; flex-shrink: 0; font-family: var(--font); }
+.card-nav-btn:disabled { cursor: default; }
+.card-nav-circle { width: 52px; height: 52px; border-radius: 50%; border: 2px solid var(--border-2); display: flex; align-items: center; justify-content: center; background: var(--bg); color: var(--text-2); box-shadow: var(--shadow-sm); transition: all 0.18s; }
+.card-nav-btn:not(:disabled):hover .card-nav-circle { border-color: var(--teal); color: var(--teal); background: var(--teal-light); box-shadow: 0 0 0 4px rgba(29,158,117,0.10); }
+.card-nav-btn:disabled .card-nav-circle { border-color: var(--border); color: var(--border-2); box-shadow: none; }
+.card-nav-label { font-size: 12px; font-weight: 500; color: var(--text-3); }
+.card-nav-btn:disabled .card-nav-label { color: var(--border-2); }
+
+.card-container { perspective: 1200px; cursor: pointer; user-select: none; flex: 1; min-width: 0; outline: none; position: relative; transition: transform 0.2s ease; }
+.card-container:hover { transform: translateY(-3px); }
+.card-container:focus-visible { outline: 3px solid var(--teal); outline-offset: 6px; border-radius: var(--r-xl); }
+.card-container::before, .card-container::after { content: ''; position: absolute; inset: 0; border-radius: var(--r-xl); background: var(--bg); border: 1px solid rgba(0,0,0,0.07); pointer-events: none; }
+.card-container::before { transform: rotate(2.5deg) translateY(5px); z-index: -1; box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
+.card-container::after { transform: rotate(-1.8deg) translateY(9px); z-index: -2; opacity: 0.65; }
+
+.card-inner { position: relative; width: 100%; min-height: 260px; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(.4,0,.2,1); }
+.card-inner.flipped { transform: rotateY(180deg); }
+
+.card-face { position: absolute; width: 100%; min-height: 260px; backface-visibility: hidden; -webkit-backface-visibility: hidden; border-radius: var(--r-xl); box-shadow: 0 6px 24px rgba(0,0,0,0.10), 0 0 0 0.5px rgba(0,0,0,0.08); display: flex; flex-direction: column; overflow: hidden; }
+.card-back { transform: rotateY(180deg); }
+.card-face:not(.card-back) { background: linear-gradient(150deg, #fffbf9 0%, #fff0e9 100%); }
+.card-face.card-back { background: linear-gradient(150deg, #f4fbf8 0%, #e6f7ef 100%); }
+.card-face:not(.card-back)::before { content: '?'; position: absolute; right: 1.2rem; top: -0.25rem; font-size: 130px; font-weight: 800; color: var(--coral-dark); opacity: 0.055; line-height: 1; pointer-events: none; user-select: none; }
+.card-face.card-back::before { content: '✓'; position: absolute; right: 1.3rem; top: 0.3rem; font-size: 115px; font-weight: 700; color: var(--teal); opacity: 0.085; line-height: 1; pointer-events: none; user-select: none; }
+
+.card-face-header { padding: 1rem 1.25rem 0.85rem; display: flex; align-items: center; gap: 8px; }
+.card-face:not(.card-back) .card-face-header { background: rgba(146,47,21,0.055); border-bottom: 1px solid rgba(146,47,21,0.10); }
+.card-face.card-back .card-face-header { background: rgba(15,110,86,0.055); border-bottom: 1px solid rgba(15,110,86,0.10); }
+.card-type-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+.dot-myth { background: var(--coral-dark); } .dot-reality { background: var(--teal); }
+.card-type-label { font-size: 11px; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+.label-myth { color: var(--coral-dark); } .label-reality { color: var(--teal-dark); }
+
+.card-face-body { flex: 1; padding: 1.25rem 1.5rem; font-size: 15.5px; color: var(--text); line-height: 1.72; display: flex; align-items: center; position: relative; z-index: 1; }
+.card-face-footer { padding: 0.65rem 1.25rem; display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 12px; }
+.card-face:not(.card-back) .card-face-footer { color: rgba(146,47,21,0.5); border-top: 1px solid rgba(146,47,21,0.09); }
+.card-face.card-back .card-face-footer { color: rgba(15,110,86,0.55); border-top: 1px solid rgba(15,110,86,0.09); }
+
+.card-dots-row { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 0.25rem; }
+.card-dots { display: flex; gap: 8px; align-items: center; }
+.card-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border-2); cursor: pointer; transition: background 0.2s, transform 0.2s; border: none; padding: 0; }
+.card-dot:hover { transform: scale(1.25); background: var(--text-3); }
+.card-dot.active { background: var(--teal); transform: scale(1.15); }
+
+/* ── CONCEPT CARDS (Activity 2) ── */
+.concept-section { margin-bottom: 2rem; }
+.concept-section-title { font-size: 13px; font-weight: 700; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.9rem; display: flex; align-items: center; gap: 8px; }
+.concept-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.concept-intro { background: var(--bg); border-radius: var(--r-lg); box-shadow: var(--shadow-card); padding: 1.25rem; margin-bottom: 1rem; font-size: 14.5px; color: var(--text); line-height: 1.75; }
+.concept-intro strong { color: var(--text); }
+
+.theory-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 1rem; }
+.theory-card { border-radius: var(--r-lg); box-shadow: var(--shadow-card); padding: 1rem; background: var(--bg); transition: box-shadow 0.15s; }
+.theory-card:hover { box-shadow: var(--shadow-md); }
+.theory-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 0.5rem; letter-spacing: 0.03em; text-transform: uppercase; }
+.tag-b { background: #FBE9E5; color: #922F15; }
+.tag-c { background: #E8F1FB; color: #1557A0; }
+.tag-co { background: #EEE8FB; color: #4A2DA8; }
+.theory-card-title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 0.35rem; }
+.theory-card-body { font-size: 12.5px; color: var(--text-2); line-height: 1.6; }
+
+.callout { background: var(--teal-light); border-radius: var(--r-lg); border-left: 3px solid var(--teal); padding: 1rem 1.1rem; margin-bottom: 1.25rem; }
+.callout-title { font-size: 13px; font-weight: 600; color: var(--teal-dark); margin-bottom: 0.3rem; }
+.callout-body { font-size: 13px; color: var(--teal-deeper); line-height: 1.65; }
+
+.callout-amber { background: var(--amber-light); border-left-color: #D4870A; }
+.callout-amber .callout-title { color: var(--amber-dark); }
+.callout-amber .callout-body { color: #5a3600; }
+
+.section-divider { border: none; border-top: 1px solid var(--border); margin: 1.75rem 0; }
+
+/* Novice-Expert visual */
+.novice-expert-bar { background: var(--bg); border-radius: var(--r-lg); box-shadow: var(--shadow-card); padding: 1.25rem; margin-bottom: 1rem; }
+.ne-label-row { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; color: var(--text-2); margin-bottom: 0.6rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.ne-bar { height: 8px; border-radius: 99px; background: linear-gradient(to right, var(--coral-dark), var(--amber-dark), var(--teal)); margin-bottom: 1rem; }
+.ne-stages { display: flex; justify-content: space-between; gap: 4px; }
+.ne-stage { flex: 1; text-align: center; }
+.ne-stage-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-2); margin: 0 auto 4px; border: 2px solid var(--bg); outline: 2px solid var(--border-2); }
+.ne-stage-label { font-size: 10px; color: var(--text-3); font-weight: 500; }
+
+/* Cognitive load visual */
+.clt-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+.clt-card { border-radius: var(--r-md); padding: 0.9rem; text-align: center; }
+.clt-intrinsic { background: var(--blue-light); }
+.clt-extraneous { background: var(--coral-light); }
+.clt-germane { background: var(--teal-light); }
+.clt-icon { font-size: 22px; margin-bottom: 0.4rem; }
+.clt-name { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.3rem; }
+.clt-intrinsic .clt-name { color: var(--blue-dark); }
+.clt-extraneous .clt-name { color: var(--coral-dark); }
+.clt-germane .clt-name { color: var(--teal-dark); }
+.clt-desc { font-size: 11.5px; color: var(--text-2); line-height: 1.55; }
+
+/* Design model steps */
+.process-steps { display: flex; flex-direction: column; gap: 8px; margin-bottom: 1.25rem; }
+.process-step { display: flex; align-items: flex-start; gap: 12px; padding: 0.9rem 1rem; border-radius: var(--r-lg); box-shadow: var(--shadow-card); background: var(--bg); transition: box-shadow 0.15s; }
+.process-step:hover { box-shadow: var(--shadow-md); }
+.step-number { width: 28px; height: 28px; border-radius: 50%; background: var(--teal-light); color: var(--teal-dark); font-size: 13px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.step-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.step-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+/* ── CFU (MCQ) ── */
+.cfu-wrap { background: var(--bg); border-radius: var(--r-lg); box-shadow: var(--shadow-card); padding: 1.25rem; margin-bottom: 1.5rem; }
+.cfu-label { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; }
+.cfu-label-dot { width: 6px; height: 6px; background: var(--amber-dark); border-radius: 50%; }
+.cfu-question { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 0.85rem; line-height: 1.5; }
+.mc-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 0; }
+.mc-option { display: flex; align-items: flex-start; gap: 10px; padding: 0.85rem 1rem; border-radius: var(--r-lg); border: 1.5px solid var(--border); background: var(--bg); cursor: pointer; transition: all 0.15s; font-size: 14px; color: var(--text); line-height: 1.55; box-shadow: var(--shadow-sm); }
+.mc-option:hover:not(.locked) { border-color: var(--teal); background: var(--teal-light); box-shadow: var(--shadow-md); }
+.mc-option.selected { border-color: var(--teal); background: var(--teal-light); }
+.mc-option.wrong { border-color: var(--coral-dark); background: var(--coral-light); }
+.mc-option.locked { cursor: default; }
+.mc-letter { width: 26px; height: 26px; border-radius: 50%; border: 1.5px solid var(--border-2); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; color: var(--text-2); background: var(--bg); transition: all 0.15s; }
+.mc-option.selected .mc-letter { background: var(--teal); color: white; border-color: var(--teal); }
+.mc-option.wrong .mc-letter { background: var(--coral-dark); color: white; border-color: var(--coral-dark); }
+
+.feedback-box { border-radius: var(--r-lg); padding: 1rem 1.1rem; margin-top: 1rem; font-size: 14px; line-height: 1.65; display: none; animation: fadeIn 0.3s ease forwards; }
+.feedback-box.show { display: block; }
+.feedback-heading { font-size: 13px; font-weight: 600; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 6px; }
+.feedback-correct { background: var(--teal-light); color: var(--teal-deeper); border: 1px solid rgba(29,158,117,0.3); }
+.feedback-partial { background: var(--warn-light); color: var(--warn-dark); border: 1px solid rgba(250,199,117,0.5); }
+
+/* ── REFLECTION ── */
+.reflection-prompt { font-size: 17px; font-weight: 500; color: var(--text); line-height: 1.6; margin-bottom: 1rem; font-style: italic; }
+.textarea-wrap { position: relative; margin-bottom: 1rem; }
+.reflection-textarea { width: 100%; min-height: 130px; padding: 0.85rem 1rem; border-radius: var(--r-lg); border: 1.5px solid var(--border-2); font-family: var(--font); font-size: 14px; color: var(--text); background: var(--bg); resize: vertical; line-height: 1.65; display: block; box-shadow: var(--shadow-sm); transition: border-color 0.2s, box-shadow 0.2s; }
+.reflection-textarea:focus { outline: none; border-color: var(--teal); box-shadow: 0 0 0 3px rgba(29,158,117,0.12); }
+.word-count { font-size: 12px; color: var(--text-3); text-align: right; margin-top: 5px; }
+.ai-response { border-radius: var(--r-lg); border: 1px solid var(--border); padding: 1.1rem; background: var(--bg); font-size: 14px; color: var(--text); line-height: 1.65; display: none; margin-bottom: 1.25rem; box-shadow: var(--shadow-card); animation: fadeIn 0.35s ease forwards; }
+.ai-response.show { display: block; }
+.ai-label-row { display: flex; align-items: center; gap: 7px; margin-bottom: 0.6rem; }
+.ai-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--teal-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ai-name { font-size: 12px; font-weight: 600; color: var(--text); }
+.ai-role { font-size: 11px; color: var(--text-3); }
+
+/* ── COMPLETION ── */
+.completion-box { text-align: center; padding: 2rem 0; }
+.completion-icon-wrap { position: relative; width: 72px; height: 72px; margin: 0 auto 1.25rem; }
+.completion-ring { position: absolute; inset: 0; border-radius: 50%; border: 3px solid var(--teal-light); }
+.completion-icon { width: 72px; height: 72px; border-radius: 50%; background: var(--teal-light); color: var(--teal-dark); display: flex; align-items: center; justify-content: center; font-size: 28px; font-weight: 600; position: relative; }
+.completion-title { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; letter-spacing: -0.02em; }
+.completion-sub { font-size: 14px; color: var(--text-2); max-width: 400px; margin: 0 auto 1.75rem; line-height: 1.65; }
+.completed-activities { display: flex; flex-direction: column; gap: 6px; max-width: 400px; margin: 0 auto 1.75rem; text-align: left; }
+.completed-item { display: flex; align-items: center; gap: 10px; padding: 0.7rem 1rem; background: var(--bg); border-radius: var(--r-md); box-shadow: var(--shadow-card); font-size: 13px; color: var(--text); }
+.completed-check { width: 20px; height: 20px; border-radius: 50%; background: var(--teal); color: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 11px; }
+
+/* ── BUTTONS ── */
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: var(--r-md); font-size: 14px; font-weight: 500; cursor: pointer; border: 1.5px solid var(--border-2); background: var(--bg); color: var(--text); transition: all 0.15s; font-family: var(--font); line-height: 1.4; white-space: nowrap; }
+.btn:hover { background: var(--bg-2); box-shadow: var(--shadow-sm); }
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: var(--teal); color: white; border-color: var(--teal); }
+.btn-primary:hover { background: var(--teal-dark); border-color: var(--teal-dark); }
+.btn-sm { padding: 6px 13px; font-size: 13px; }
+.btn-lg { padding: 10px 22px; font-size: 15px; }
+.nav-row { display: flex; justify-content: space-between; align-items: center; margin-top: 1.25rem; gap: 8px; }
+
+/* ── REFLECTION TABS ── */
+.reflect-tabs { display: flex; gap: 4px; background: var(--bg-3); border-radius: var(--r-md); padding: 4px; margin-bottom: 1.25rem; }
+.reflect-tab { flex: 1; padding: 7px 12px; border-radius: var(--r-sm); font-size: 13px; font-weight: 500; color: var(--text-2); cursor: pointer; border: none; background: none; font-family: var(--font); transition: all 0.15s; text-align: center; }
+.reflect-tab.active { background: var(--bg); color: var(--text); box-shadow: var(--shadow-sm); font-weight: 600; }
+.reflect-panel { display: none; }
+.reflect-panel.active { display: block; animation: fadeIn 0.25s ease forwards; }
+
+@media (max-width: 520px) {
+  .theory-grid, .clt-grid { grid-template-columns: 1fr; }
+  .activity-grid { grid-template-columns: 1fr; }
+  .module-shell { padding: 1.25rem 0.9rem 4rem; }
+  .act-title { font-size: 20px; }
+  .header-module-name, .header-divider { display: none; }
+  .card-nav-circle { width: 40px; height: 40px; }
+  .card-player-row { gap: 8px; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header" role="banner">
+  <div class="header-inner">
+    <div class="header-logo">
+      <div class="header-logo-mark">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 8h8M8 4v8" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <span class="header-logo-text">TLL</span>
+    </div>
+    <div class="header-divider"></div>
+    <span class="header-module-name">Higher Education Learning Design</span>
+    <div class="header-progress-wrap">
+      <div class="header-progress-bar"><div class="header-progress-fill" id="headerProgressFill" style="width:0%"></div></div>
+      <span class="header-progress-pct" id="headerProgressPct">0%</span>
+    </div>
+  </div>
+</header>
+
+<div class="module-shell" role="main">
+
+  <!-- ══ SEC 0: OVERVIEW ══ -->
+  <div class="section active" id="sec0">
+    <div class="overview-intro">
+      <div class="overview-intro-label">Teaching Learning Lab · Pre-Course Microlearning</div>
+      <div class="overview-intro-title">Higher Education Learning Design</div>
+      <div class="overview-intro-desc">Before Week 1 of T127, build your foundation. This 30-minute unit introduces the TLL, how people learn, and how designers make decisions, so you can contribute from day one.</div>
+    </div>
+
+    <div class="activity-grid" role="list">
+      <div class="activity-card" role="listitem" onclick="goTo(1)" tabindex="0" onkeydown="if(event.key==='Enter')goTo(1)">
+        <div class="act-card-icon icon-cards">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="5" width="10" height="7" rx="1.5" fill="#4A2DA8" opacity="0.25"/><rect x="6" y="3" width="10" height="7" rx="1.5" stroke="#4A2DA8" stroke-width="1.3" fill="none"/><rect x="2" y="8" width="10" height="7" rx="1.5" stroke="#4A2DA8" stroke-width="1.3" fill="none"/></svg>
+        </div>
+        <div class="act-card-label">Activity 1 · 5 min</div>
+        <div class="act-card-title">Know the TLL</div>
+        <div class="act-card-time">Myth-busting flip cards</div>
+      </div>
+      <div class="activity-card" role="listitem" onclick="goTo(2)" tabindex="0" onkeydown="if(event.key==='Enter')goTo(2)">
+        <div class="act-card-icon icon-read">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="2.5" width="12" height="13" rx="1.5" stroke="#1557A0" stroke-width="1.3" fill="none"/><path d="M6 6h6M6 9h6M6 12h4" stroke="#1557A0" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="act-card-label">Activity 2 · 15 min</div>
+        <div class="act-card-title">How Learning Works</div>
+        <div class="act-card-time">Concepts + check for understanding</div>
+      </div>
+      <div class="activity-card" role="listitem" onclick="goTo(3)" tabindex="0" onkeydown="if(event.key==='Enter')goTo(3)">
+        <div class="act-card-icon icon-reflect">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 5.5C4 4.1 5.1 3 6.5 3h5C12.9 3 14 4.1 14 5.5v5c0 1.4-1.1 2.5-2.5 2.5H8l-3 2.5V13H6.5C5.1 13 4 11.9 4 10.5v-5z" stroke="#0F6E56" stroke-width="1.3" fill="none"/></svg>
+        </div>
+        <div class="act-card-label">Activity 3 · 10 min</div>
+        <div class="act-card-title">Your Reflection</div>
+        <div class="act-card-time">Three prompts, your thinking</div>
+      </div>
+      <div class="activity-card" role="listitem" onclick="goTo(4)" tabindex="0" onkeydown="if(event.key==='Enter')goTo(4)">
+        <div class="act-card-icon" style="background:var(--amber-light);">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="3" y="2" width="12" height="14" rx="1.5" stroke="#7A4A0A" stroke-width="1.3" fill="none"/><path d="M6 6h6M6 9h6M6 12h3" stroke="#7A4A0A" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </div>
+        <div class="act-card-label">Activity 4 · 15 min</div>
+        <div class="act-card-title">Your Portfolio</div>
+        <div class="act-card-time">What it is and how to build it</div>
+      </div>
+    </div>
+
+    <div style="text-align:center">
+      <button class="btn btn-primary btn-lg" onclick="goTo(1)">
+        Start
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 4l4 4-4 4" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ SEC 1: ACTIVITY 1 — Myth-busting Cards ══ -->
+  <div class="section" id="sec1">
+    <div class="act-header">
+      <div class="act-meta-row">
+        <span class="act-num">Activity 1</span><span class="act-dot">·</span><span class="act-time">5 min</span>
+      </div>
+      <div class="act-title">Know the TLL</div>
+      <div class="act-subtitle">Before you flip each card, rate how confident you are in your assumption. Then see the reality.</div>
+    </div>
+
+    <!-- Confidence rating -->
+    <div class="confidence-wrap" id="confidenceWrap">
+      <div class="confidence-label">How confident are you in this assumption?</div>
+      <div class="confidence-options">
+        <button class="conf-btn" id="confLow" onclick="selectConfidence('low')">Not sure</button>
+        <button class="conf-btn" id="confMid" onclick="selectConfidence('mid')">Somewhat sure</button>
+        <button class="conf-btn" id="confHigh" onclick="selectConfidence('high')">Very sure</button>
+      </div>
+    </div>
+
+    <div class="card-player">
+      <div class="card-counter-row" id="cardCounter" aria-live="polite">1 of 5</div>
+      <div class="card-player-row">
+        <button class="card-nav-btn" id="prevBtn" onclick="prevCard()" aria-label="Previous card" disabled>
+          <div class="card-nav-circle"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M13 6l-5 5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="card-nav-label">Previous</span>
+        </button>
+
+        <div class="card-container" id="cardContainer" tabindex="0" role="button" aria-label="Flip card" onclick="flipCard()" onkeydown="handleCardKey(event)">
+          <div class="card-inner" id="cardInner">
+            <div class="card-face">
+              <div class="card-face-header"><div class="card-type-dot dot-myth"></div><span class="card-type-label label-myth">Myth</span></div>
+              <div class="card-face-body"><span id="cardFront"></span></div>
+              <div class="card-face-footer">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M3 6.5h7M7.5 4l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Tap to reveal the reality
+              </div>
+            </div>
+            <div class="card-face card-back">
+              <div class="card-face-header"><div class="card-type-dot dot-reality"></div><span class="card-type-label label-reality">Reality</span></div>
+              <div class="card-face-body"><span id="cardBack"></span></div>
+              <div class="card-face-footer">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M10 6.5H3M5.5 4L3 6.5l2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Tap to flip back
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="card-nav-btn" id="nextBtn" onclick="nextCard()" aria-label="Next card">
+          <div class="card-nav-circle"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M9 6l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <span class="card-nav-label">Next</span>
+        </button>
+      </div>
+      <div class="card-dots-row">
+        <div class="card-dots" id="cardDots" role="tablist"></div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn" onclick="goTo(0)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M8 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Overview
+      </button>
+      <button class="btn btn-primary" onclick="goTo(2)">
+        Continue
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ SEC 2: ACTIVITY 2 — How Learning Works ══ -->
+  <div class="section" id="sec2">
+    <div class="act-header">
+      <div class="act-meta-row">
+        <span class="act-num">Activity 2</span><span class="act-dot">·</span><span class="act-time">15 min</span>
+      </div>
+      <div class="act-title">How Learning Works</div>
+      <div class="act-subtitle">Here are four concepts that will shape how you think about your T127 project work and how you talk about it with faculty and the TLL team.</div>
+    </div>
+
+    <!-- PART 1: Learning Theories -->
+    <div class="concept-section">
+      <div class="concept-section-title">Learning Theories</div>
+
+      <div class="concept-intro">
+        One of the first things you will notice in T127 is that learning designers do not just pick activities they like. Every design decision is grounded in <strong>theory</strong>. A learning theory is a lens that helps us understand <em>why</em> people learn. Three theories have shaped instructional design since the 1950s, and you will encounter all three during your time with the TLL.
+      </div>
+
+      <div class="theory-grid">
+        <div class="theory-card">
+          <span class="theory-tag tag-b">Behaviorism</span>
+          <div class="theory-card-title">Learning through response</div>
+          <div class="theory-card-body">Learning happens when the right behavior is reinforced. Practice, feedback, and repetition drive it. Think quizzes with immediate feedback, drills, and mastery checkpoints.</div>
+        </div>
+        <div class="theory-card">
+          <span class="theory-tag tag-c">Cognitivism</span>
+          <div class="theory-card-title">Learning through mental structure</div>
+          <div class="theory-card-body">Learning happens when new information connects to what the learner already knows. Think analogies, advance organizers, concept maps, and structured explanations.</div>
+        </div>
+        <div class="theory-card">
+          <span class="theory-tag tag-co">Constructivism</span>
+          <div class="theory-card-title">Learning through doing</div>
+          <div class="theory-card-body">Learning happens when people actively build meaning through experience. Think case studies, open-ended problems, reflection, and real-world projects. T127 itself is a constructivist experience.</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">The key insight for you as a designer</div>
+        <div class="callout-body">No single theory is always the right answer. The question we want you to start asking is: what kind of learning is actually needed here? If someone needs to memorize a process, behaviorism helps. If they need to understand a concept, cognitivism helps. If they need to apply judgment in a messy, real situation, constructivism helps. In T127, you will draw on all three.</div>
+      </div>
+
+      <!-- CFU 1 -->
+      <div class="cfu-wrap" id="cfu1">
+        <div class="cfu-label"><div class="cfu-label-dot"></div>Check for Understanding</div>
+        <div class="cfu-question">A faculty member wants students to practice giving feedback to peers on their writing drafts. Which learning theory best supports this design decision?</div>
+        <div class="mc-options">
+          <div class="mc-option" onclick="selectCFU(1,0,false)"><div class="mc-letter">A</div><div>Behaviorism, because feedback is core to reinforcing behavior</div></div>
+          <div class="mc-option" onclick="selectCFU(1,1,false)"><div class="mc-letter">B</div><div>Cognitivism, because students need to connect new feedback skills to prior knowledge</div></div>
+          <div class="mc-option" onclick="selectCFU(1,2,true)"><div class="mc-letter">C</div><div>Constructivism, because students build judgment by actively engaging with real writing in context</div></div>
+          <div class="mc-option" onclick="selectCFU(1,3,false)"><div class="mc-letter">D</div><div>None of these, because peer feedback is not covered by classical learning theories</div></div>
+        </div>
+        <div class="feedback-box" id="fb1"></div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- PART 2: Novice to Expert -->
+    <div class="concept-section">
+      <div class="concept-section-title">Novice to Expert</div>
+
+      <div class="concept-intro">
+        <strong>Novice-to-expert progression is a core design tool.</strong> It describes how learners develop expertise over time, moving through recognizable stages, each with different needs, different ways of organizing knowledge, and different responses to instruction. As a learning designer, one of the first questions you should ask about any learner is: where are they on this spectrum? Because the answer will change everything about what you design for them.
+      </div>
+
+      <div class="novice-expert-bar">
+        <div class="ne-label-row"><span>Novice</span><span>Expert</span></div>
+        <div class="ne-bar"></div>
+        <div class="ne-stages">
+          <div class="ne-stage"><div class="ne-stage-dot" style="background:var(--coral-dark);outline-color:var(--coral-dark)"></div><div class="ne-stage-label">Novice</div></div>
+          <div class="ne-stage"><div class="ne-stage-dot" style="background:#c04a20;outline-color:#c04a20"></div><div class="ne-stage-label">Beginner</div></div>
+          <div class="ne-stage"><div class="ne-stage-dot" style="background:var(--amber-dark);outline-color:var(--amber-dark)"></div><div class="ne-stage-label">Competent</div></div>
+          <div class="ne-stage"><div class="ne-stage-dot" style="background:#5a8a00;outline-color:#5a8a00"></div><div class="ne-stage-label">Proficient</div></div>
+          <div class="ne-stage"><div class="ne-stage-dot" style="background:var(--teal);outline-color:var(--teal)"></div><div class="ne-stage-label">Expert</div></div>
+        </div>
+      </div>
+
+      <!-- What / Why / What you do -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;">
+        <div style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1rem;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3);margin-bottom:0.5rem;">What it tells you</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.65;">Novices store knowledge as <em>isolated facts</em>. Experts store it as <em>interconnected patterns</em>. A novice approaching a new problem searches slowly for a rule or formula. An expert immediately sees structure, context, and connections. They are not just further along the same path. They actually think differently.</div>
+        </div>
+        <div style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1rem;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-3);margin-bottom:0.5rem;">What you do with it</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.65;">Design for where the learner <em>actually is</em>, not where you wish they were. Novices need clear structure, worked examples, and explicit connections. Open-ended exploration and ambiguity are things experts thrive in. For novices, that same ambiguity overwhelms and slows learning down.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-amber">
+        <div class="callout-title">The faculty challenge: the curse of expertise</div>
+        <div class="callout-body">Faculty are domain experts. That is why they are faculty. But expertise comes with a hidden cost: the longer you know something deeply, the harder it becomes to remember what it felt like to <em>not</em> know it. We call this the <strong>curse of expertise</strong>. It is one of the most common sources of misaligned course design in higher education. Faculty often design courses for learners who think like they do, not for the novices who are actually sitting in front of them. As a learning designer, your job is to be the voice of those novices in the room. You are there to ask the questions a student would ask: what does someone actually need to understand this, given where they are starting from?</div>
+      </div>
+
+      <!-- Embedded private reflection -->
+      <div style="background:var(--purple-light);border-radius:var(--r-lg);border-left:3px solid var(--purple-dark);padding:1rem 1.1rem;margin-bottom:1.25rem;">
+        <div style="font-size:13px;font-weight:600;color:var(--purple-dark);margin-bottom:0.5rem;">⏸ Pause and reflect</div>
+        <div style="font-size:13px;color:#2d1f6e;line-height:1.65;margin-bottom:0.75rem;">Think about a course or learning experience you have been through. Where were you on the novice-to-expert spectrum at the start? Did the design of that experience account for where you actually were, or did it assume more than you had?</div>
+        <textarea
+          id="neReflection"
+          placeholder="Jot your thoughts here. This is just for you..."
+          style="width:100%;min-height:80px;padding:0.7rem 0.9rem;border-radius:var(--r-md);border:1.5px solid rgba(74,45,168,0.25);font-family:var(--font);font-size:13px;color:var(--text);background:rgba(255,255,255,0.7);resize:vertical;line-height:1.6;display:block;transition:border-color 0.2s,box-shadow 0.2s;"
+          onfocus="this.style.borderColor='var(--purple-dark)';this.style.boxShadow='0 0 0 3px rgba(74,45,168,0.10)'"
+          onfocusout="this.style.borderColor='rgba(74,45,168,0.25)';this.style.boxShadow='none'"
+        ></textarea>
+        <div style="font-size:11px;color:rgba(74,45,168,0.5);margin-top:5px;text-align:right;">Your notes stay private and are not submitted</div>
+      </div>
+
+      <!-- CFU 2 -->
+      <div class="cfu-wrap" id="cfu2">
+        <div class="cfu-label"><div class="cfu-label-dot"></div>Check for Understanding</div>
+        <div class="cfu-question">A faculty partner gives you a syllabus with 12 dense readings in week one and says "students should figure out the key themes themselves." As a learning designer, your first concern is:</div>
+        <div class="mc-options">
+          <div class="mc-option" onclick="selectCFU(2,0,false)"><div class="mc-letter">A</div><div>The readings may be too long for the time available</div></div>
+          <div class="mc-option" onclick="selectCFU(2,1,true)"><div class="mc-letter">B</div><div>Novice learners need structure and explicit connections, not open-ended discovery this early</div></div>
+          <div class="mc-option" onclick="selectCFU(2,2,false)"><div class="mc-letter">C</div><div>The faculty member should choose the themes themselves before class</div></div>
+          <div class="mc-option" onclick="selectCFU(2,3,false)"><div class="mc-letter">D</div><div>Students at HGSE are advanced enough to handle unstructured learning</div></div>
+        </div>
+        <div class="feedback-box" id="fb2"></div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- PART 3: Cognitive Load -->
+    <div class="concept-section">
+      <div class="concept-section-title">Cognitive Load</div>
+
+      <div class="concept-intro">
+        Here is something useful to know about how the brain works. Your working memory, the part that handles new information in the moment, has a limited capacity. When a learning experience asks too much of it at once, the brain simply cannot process everything effectively. <strong>Cognitive load theory</strong> is the framework designers use to work with this limitation rather than against it.
+      </div>
+
+      <div class="clt-grid">
+        <div class="clt-card clt-intrinsic">
+          <div class="clt-icon">🧩</div>
+          <div class="clt-name" style="color:var(--blue-dark)">Intrinsic</div>
+          <div class="clt-desc">The inherent complexity of the topic itself. You cannot eliminate it, but you can sequence it wisely so learners build up to it.</div>
+        </div>
+        <div class="clt-card clt-extraneous">
+          <div class="clt-icon">🚫</div>
+          <div class="clt-name" style="color:var(--coral-dark)">Extraneous</div>
+          <div class="clt-desc">Unnecessary complexity added by poor design. Confusing instructions, cluttered slides, irrelevant information. This is the load you want to eliminate.</div>
+        </div>
+        <div class="clt-card clt-germane">
+          <div class="clt-icon">✅</div>
+          <div class="clt-name" style="color:var(--teal-dark)">Germane</div>
+          <div class="clt-desc">The productive mental effort of connecting new knowledge to what a learner already knows. This is the kind of load you want to encourage.</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">What this means for your design work</div>
+        <div class="callout-body">Good instructional design reduces extraneous load and sequences intrinsic load carefully so that learners have enough mental space left for the germane work of actually learning. So when a student says something feels overwhelming, that is often a design problem, not a student problem. That reframe is one of the most important shifts you will make in T127.</div>
+      </div>
+
+      <!-- CFU 3 -->
+      <div class="cfu-wrap" id="cfu3">
+        <div class="cfu-label"><div class="cfu-label-dot"></div>Check for Understanding</div>
+        <div class="cfu-question">A faculty member's lecture slides contain 200 words of text per slide, plus a diagram, plus audio narration all covering the same concept simultaneously. Which type of cognitive load is most likely being increased unnecessarily?</div>
+        <div class="mc-options">
+          <div class="mc-option" onclick="selectCFU(3,0,false)"><div class="mc-letter">A</div><div>Intrinsic load, because the content itself is too complex</div></div>
+          <div class="mc-option" onclick="selectCFU(3,1,true)"><div class="mc-letter">B</div><div>Extraneous load, because the design is adding unnecessary cognitive demands</div></div>
+          <div class="mc-option" onclick="selectCFU(3,2,false)"><div class="mc-letter">C</div><div>Germane load, because students are being asked to make too many connections</div></div>
+          <div class="mc-option" onclick="selectCFU(3,3,false)"><div class="mc-letter">D</div><div>None, because more information always helps learning</div></div>
+        </div>
+        <div class="feedback-box" id="fb3"></div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- PART 4: Design Models -->
+    <div class="concept-section">
+      <div class="concept-section-title">Design Models</div>
+
+      <div class="concept-intro">
+        If learning theories explain <em>why</em> people learn, design models describe <em>how</em> designers actually work. Think of them as thinking frameworks, not rigid checklists. Two models appear constantly in T127: <strong>ADDIE</strong> and <strong>Backwards Design</strong>. You will use both.
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem;">
+        <div style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1.1rem;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--blue-dark);background:var(--blue-light);display:inline-block;padding:2px 8px;border-radius:99px;margin-bottom:0.6rem;">Design Model</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:0.4rem;">ADDIE</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.6;">Analyze, Design, Develop, Implement, Evaluate. This is the process framework most TLL projects follow. It is not a strict sequence though. Evaluation feeds back into every phase, not just at the end.</div>
+        </div>
+        <div style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1.1rem;">
+          <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:var(--amber-dark);background:var(--amber-light);display:inline-block;padding:2px 8px;border-radius:99px;margin-bottom:0.6rem;">Design Model</div>
+          <div style="font-size:14px;font-weight:600;margin-bottom:0.4rem;">Backwards Design</div>
+          <div style="font-size:13px;color:var(--text-2);line-height:1.6;">Start with the outcome. What should the learner be able to do? Then design the assessment. Then design the activities. Most designers get this backwards and start with content rather than outcomes.</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="callout-title">Bringing theory and model together</div>
+        <div class="callout-body">The model tells you <em>what steps to take</em>. The theory tells you <em>why those steps will work</em>. In your T127 project analysis document, you will need to show both: the design decisions you made and the learning science behind them. That connection between theory and practice is at the heart of what we do at the TLL.</div>
+      </div>
+
+      <!-- CFU 4 -->
+      <div class="cfu-wrap" id="cfu4">
+        <div class="cfu-label"><div class="cfu-label-dot"></div>Check for Understanding</div>
+        <div class="cfu-question">Using Backwards Design, what should a learning designer determine first when starting a new project?</div>
+        <div class="mc-options">
+          <div class="mc-option" onclick="selectCFU(4,0,false)"><div class="mc-letter">A</div><div>Which platform or technology will be used to deliver the content</div></div>
+          <div class="mc-option" onclick="selectCFU(4,1,false)"><div class="mc-letter">B</div><div>What content the faculty member wants to cover</div></div>
+          <div class="mc-option" onclick="selectCFU(4,2,true)"><div class="mc-letter">C</div><div>What learners should be able to do or know by the end</div></div>
+          <div class="mc-option" onclick="selectCFU(4,3,false)"><div class="mc-letter">D</div><div>How long the course or module needs to be</div></div>
+        </div>
+        <div class="feedback-box" id="fb4"></div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn" onclick="goTo(1)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M8 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </button>
+      <button class="btn btn-primary" onclick="goTo(3)">
+        Continue
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ SEC 3: ACTIVITY 3 — Reflection ══ -->
+  <div class="section" id="sec3">
+    <div class="act-header">
+      <div class="act-meta-row">
+        <span class="act-num">Activity 3</span><span class="act-dot">·</span><span class="act-time">10 min</span>
+      </div>
+      <div class="act-title">Your Reflection</div>
+      <div class="act-subtitle">Take a few minutes to respond to one of the three prompts below. Your response goes directly to the teaching team and helps us understand where you are coming from as you start T127.</div>
+    </div>
+
+    <div class="reflect-tabs">
+      <button class="reflect-tab active" onclick="switchTab(0)">Prompt 1</button>
+      <button class="reflect-tab" onclick="switchTab(1)">Prompt 2</button>
+      <button class="reflect-tab" onclick="switchTab(2)">Prompt 3</button>
+    </div>
+
+    <div class="reflect-panel active" id="rp0">
+      <div class="reflection-prompt">"Thinking about the learning theories I just read about, which one best describes how I have been taught in most of my own education? What did that feel like as a learner?"</div>
+    </div>
+    <div class="reflect-panel" id="rp1">
+      <div class="reflection-prompt">"As someone who is new to learning design, where do I see myself on the novice-to-expert spectrum right now? What do I think would help me move forward during T127?"</div>
+    </div>
+    <div class="reflect-panel" id="rp2">
+      <div class="reflection-prompt">"Thinking about a learning experience I found overwhelming or confusing, looking back now, was that a content problem or a design problem? What would I change if I had been the designer?"</div>
+    </div>
+
+    <div class="textarea-wrap">
+      <textarea class="reflection-textarea" id="reflectionText"
+        placeholder="Type your response here..."
+        aria-label="Reflection response"
+        oninput="updateWordCount()"></textarea>
+      <div class="word-count" id="wordCount">0 words</div>
+    </div>
+
+    <div class="ai-response" id="aiResponse" role="region" aria-label="Instructor feedback">
+      <div class="ai-label-row">
+        <div class="ai-avatar">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="4.5" r="2" stroke="#0F6E56" stroke-width="1.1" fill="none"/><path d="M2 11c0-2.5 2-4 4.5-4s4.5 1.5 4.5 4" stroke="#0F6E56" stroke-width="1.1" stroke-linecap="round" fill="none"/></svg>
+        </div>
+        <div>
+          <div class="ai-name">Your Instructor</div>
+          <div class="ai-role">Simulated response</div>
+        </div>
+      </div>
+      <div id="aiResponseText"></div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn" onclick="goTo(2)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M8 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </button>
+      <button class="btn btn-primary" id="submitBtn" onclick="submitReflection()">
+        Submit response
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="btn btn-primary" id="completeBtn" style="display:none" onclick="goTo(4)">
+        Complete module
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ SEC 4: PORTFOLIO ══ -->
+  <div class="section" id="sec4">
+    <div class="act-header">
+      <div class="act-meta-row">
+        <span class="act-num">Activity 4</span><span class="act-dot">·</span><span class="act-time">15 min</span>
+      </div>
+      <div class="act-title">Your Portfolio</div>
+      <div class="act-subtitle">Before you start T127, let us make sure you understand what your portfolio is, why it matters professionally, and how to think about building it from day one.</div>
+    </div>
+
+    <!-- Video -->
+    <div style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);overflow:hidden;margin-bottom:1.5rem;">
+      <video
+        controls
+        style="width:100%;display:block;border-radius:var(--r-lg) var(--r-lg) 0 0;max-height:420px;background:#000;"
+        preload="metadata">
+        <source src="Your_Portfolio.mp4" type="video/mp4">
+        Your browser does not support the video tag. Please download the video to view it.
+      </video>
+      <div style="padding:1rem 1.25rem;background:var(--bg-2);border-top:1px solid var(--border);font-size:13px;color:var(--text-2);line-height:1.65;">
+        This video introduces what your T127 portfolio is, why it matters beyond this course, and what goes in it. Watch it first, then continue with the activities below.
+      </div>
+    </div>
+
+    <!-- PART 1: Agree or Disagree Slider -->
+    <div class="concept-section">
+      <div class="concept-section-title">Check Your Thinking</div>
+
+      <div class="concept-intro">
+        Before we go further, let us see where your instincts are. For each statement below, move the slider to show whether you agree or disagree. Then reveal what the research and T127 actually say.
+      </div>
+
+      <!-- Slider statements -->
+      <div id="sliderStatements">
+        <!-- Statement 1 -->
+        <div class="slider-item" id="si0" style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1.25rem;margin-bottom:1rem;">
+          <div style="font-size:14px;font-weight:500;color:var(--text);line-height:1.6;margin-bottom:1rem;">"A portfolio is just a place to store finished work that I am proud of."</div>
+          <div style="margin-bottom:0.75rem;">
+            <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem;">
+              <span>Disagree</span><span>Agree</span>
+            </div>
+            <input type="range" min="0" max="100" value="50" class="agree-slider" id="slider0"
+              style="width:100%;accent-color:var(--teal);cursor:pointer;"
+              oninput="updateSliderColor(0)">
+          </div>
+          <div style="text-align:center;">
+            <button class="btn btn-sm" onclick="revealSlider(0)" id="revealBtn0">Reveal</button>
+          </div>
+          <div class="slider-feedback" id="sfb0" style="display:none;margin-top:1rem;border-radius:var(--r-md);padding:0.9rem 1rem;font-size:13.5px;line-height:1.65;animation:fadeIn 0.3s ease forwards;"></div>
+        </div>
+
+        <!-- Statement 2 -->
+        <div class="slider-item" id="si1" style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1.25rem;margin-bottom:1rem;">
+          <div style="font-size:14px;font-weight:500;color:var(--text);line-height:1.6;margin-bottom:1rem;">"I only need to update my portfolio when an assignment requires it."</div>
+          <div style="margin-bottom:0.75rem;">
+            <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem;">
+              <span>Disagree</span><span>Agree</span>
+            </div>
+            <input type="range" min="0" max="100" value="50" class="agree-slider" id="slider1"
+              style="width:100%;accent-color:var(--teal);cursor:pointer;"
+              oninput="updateSliderColor(1)">
+          </div>
+          <div style="text-align:center;">
+            <button class="btn btn-sm" onclick="revealSlider(1)" id="revealBtn1">Reveal</button>
+          </div>
+          <div class="slider-feedback" id="sfb1" style="display:none;margin-top:1rem;border-radius:var(--r-md);padding:0.9rem 1rem;font-size:13.5px;line-height:1.65;animation:fadeIn 0.3s ease forwards;"></div>
+        </div>
+
+        <!-- Statement 3 -->
+        <div class="slider-item" id="si2" style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1.25rem;margin-bottom:1rem;">
+          <div style="font-size:14px;font-weight:500;color:var(--text);line-height:1.6;margin-bottom:1rem;">"The platform I choose for my portfolio will determine how good it looks to employers."</div>
+          <div style="margin-bottom:0.75rem;">
+            <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem;">
+              <span>Disagree</span><span>Agree</span>
+            </div>
+            <input type="range" min="0" max="100" value="50" class="agree-slider" id="slider2"
+              style="width:100%;accent-color:var(--teal);cursor:pointer;"
+              oninput="updateSliderColor(2)">
+          </div>
+          <div style="text-align:center;">
+            <button class="btn btn-sm" onclick="revealSlider(2)" id="revealBtn2">Reveal</button>
+          </div>
+          <div class="slider-feedback" id="sfb2" style="display:none;margin-top:1rem;border-radius:var(--r-md);padding:0.9rem 1rem;font-size:13.5px;line-height:1.65;animation:fadeIn 0.3s ease forwards;"></div>
+        </div>
+
+        <!-- Statement 4 -->
+        <div class="slider-item" id="si3" style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1.25rem;margin-bottom:1rem;">
+          <div style="font-size:14px;font-weight:500;color:var(--text);line-height:1.6;margin-bottom:1rem;">"A portfolio reflection is basically a summary of what I did."</div>
+          <div style="margin-bottom:0.75rem;">
+            <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem;">
+              <span>Disagree</span><span>Agree</span>
+            </div>
+            <input type="range" min="0" max="100" value="50" class="agree-slider" id="slider3"
+              style="width:100%;accent-color:var(--teal);cursor:pointer;"
+              oninput="updateSliderColor(3)">
+          </div>
+          <div style="text-align:center;">
+            <button class="btn btn-sm" onclick="revealSlider(3)" id="revealBtn3">Reveal</button>
+          </div>
+          <div class="slider-feedback" id="sfb3" style="display:none;margin-top:1rem;border-radius:var(--r-md);padding:0.9rem 1rem;font-size:13.5px;line-height:1.65;animation:fadeIn 0.3s ease forwards;"></div>
+        </div>
+
+        <!-- Statement 5 -->
+        <div class="slider-item" id="si4" style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1.25rem;margin-bottom:1rem;">
+          <div style="font-size:14px;font-weight:500;color:var(--text);line-height:1.6;margin-bottom:1rem;">"My portfolio is only for my instructor to evaluate my work."</div>
+          <div style="margin-bottom:0.75rem;">
+            <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--text-3);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:0.4rem;">
+              <span>Disagree</span><span>Agree</span>
+            </div>
+            <input type="range" min="0" max="100" value="50" class="agree-slider" id="slider4"
+              style="width:100%;accent-color:var(--teal);cursor:pointer;"
+              oninput="updateSliderColor(4)">
+          </div>
+          <div style="text-align:center;">
+            <button class="btn btn-sm" onclick="revealSlider(4)" id="revealBtn4">Reveal</button>
+          </div>
+          <div class="slider-feedback" id="sfb4" style="display:none;margin-top:1rem;border-radius:var(--r-md);padding:0.9rem 1rem;font-size:13.5px;line-height:1.65;animation:fadeIn 0.3s ease forwards;"></div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- PART 2: Platform Matcher -->
+    <div class="concept-section">
+      <div class="concept-section-title">Find Your Platform</div>
+
+      <div class="concept-intro">
+        There is no required platform for your T127 portfolio. But that does not mean the choice does not matter. Answer two quick questions and we will point you toward the option that suits you best.
+      </div>
+
+      <div id="platformMatcher">
+        <!-- Question 1 -->
+        <div id="pmQ1" style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1.25rem;margin-bottom:1rem;">
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:0.85rem;">How comfortable are you building things on the web?</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="mc-option" onclick="selectPM(1,'low')" id="pmA1a"><div class="mc-letter">A</div><div>Not very. I prefer to keep things simple and familiar.</div></div>
+            <div class="mc-option" onclick="selectPM(1,'mid')" id="pmA1b"><div class="mc-letter">B</div><div>Somewhat. I can figure things out with a bit of guidance.</div></div>
+            <div class="mc-option" onclick="selectPM(1,'high')" id="pmA1c"><div class="mc-letter">C</div><div>Very comfortable. I enjoy building and customizing things online.</div></div>
+          </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div id="pmQ2" style="background:var(--bg);border-radius:var(--r-lg);box-shadow:var(--shadow-card);padding:1.25rem;margin-bottom:1rem;display:none;">
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin-bottom:0.85rem;">Who is the primary audience for your portfolio right now?</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div class="mc-option" onclick="selectPM(2,'internal')" id="pmA2a"><div class="mc-letter">A</div><div>Mainly my instructor and peers in T127.</div></div>
+            <div class="mc-option" onclick="selectPM(2,'employers')" id="pmA2b"><div class="mc-letter">B</div><div>Future employers and the professional learning design community.</div></div>
+            <div class="mc-option" onclick="selectPM(2,'both')" id="pmA2c"><div class="mc-letter">C</div><div>Both. I want it to work for course requirements and look professional.</div></div>
+          </div>
+        </div>
+
+        <!-- Result -->
+        <div id="pmResult" style="display:none;border-radius:var(--r-lg);padding:1.25rem;animation:fadeIn 0.35s ease forwards;"></div>
+      </div>
+    </div>
+
+    <hr class="section-divider">
+
+    <!-- PART 3: Private Reflection -->
+    <div class="concept-section">
+      <div class="concept-section-title">A Moment to Think</div>
+
+      <div style="background:var(--purple-light);border-radius:var(--r-lg);border-left:3px solid var(--purple-dark);padding:1rem 1.1rem;margin-bottom:1.25rem;">
+        <div style="font-size:13px;font-weight:600;color:var(--purple-dark);margin-bottom:0.5rem;">⏸ Pause and reflect</div>
+        <div style="font-size:13px;color:#2d1f6e;line-height:1.65;margin-bottom:0.75rem;">By the end of T127, what story do you want your portfolio to tell? Think about who will read it, what work you hope to show, and what it will say about you as a learning designer.</div>
+        <textarea
+          id="portfolioReflection"
+          placeholder="Jot your thoughts here. This is just for you..."
+          style="width:100%;min-height:90px;padding:0.7rem 0.9rem;border-radius:var(--r-md);border:1.5px solid rgba(74,45,168,0.25);font-family:var(--font);font-size:13px;color:var(--text);background:rgba(255,255,255,0.7);resize:vertical;line-height:1.6;display:block;transition:border-color 0.2s,box-shadow 0.2s;"
+          onfocus="this.style.borderColor='var(--purple-dark)';this.style.boxShadow='0 0 0 3px rgba(74,45,168,0.10)'"
+          onfocusout="this.style.borderColor='rgba(74,45,168,0.25)';this.style.boxShadow='none'"
+        ></textarea>
+        <div style="font-size:11px;color:rgba(74,45,168,0.5);margin-top:5px;text-align:right;">Your notes stay private and are not submitted</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn" onclick="goTo(3)">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M8 3l-4 4 4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </button>
+      <button class="btn btn-primary" onclick="goTo(5)">
+        Complete module
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ SEC 5: COMPLETION ══ -->
+  <div class="section" id="sec5">
+    <div class="completion-box">
+      <div class="completion-icon-wrap">
+        <div class="completion-ring"></div>
+        <div class="completion-icon" aria-hidden="true">✓</div>
+      </div>
+      <div class="completion-title">Module complete</div>
+      <div class="completion-sub">You have explored what the TLL does, how learning works, how designers think, and what your portfolio is for. You are ready for Week 1.</div>
+
+      <div class="completed-activities" role="list">
+        <div class="completed-item" role="listitem"><div class="completed-check" aria-hidden="true">✓</div><div>Activity 1: Know the TLL</div></div>
+        <div class="completed-item" role="listitem"><div class="completed-check" aria-hidden="true">✓</div><div>Activity 2: How Learning Works</div></div>
+        <div class="completed-item" role="listitem"><div class="completed-check" aria-hidden="true">✓</div><div>Activity 3: Your Reflection</div></div>
+        <div class="completed-item" role="listitem"><div class="completed-check" aria-hidden="true">✓</div><div>Activity 4: Your Portfolio</div></div>
+      </div>
+
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn" onclick="goTo(0)">Review from start</button>
+        <button class="btn btn-primary" onclick="alert('Section 2 coming soon.')">
+          Next section
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M6 3l4 4-4 4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ── DATA ── */
+var cards = [
+  {
+    front: "The Teaching Learning Lab is basically a tech support team that helps faculty set up their Canvas courses.",
+    back: "The TLL is a full-service learning design and development shop. Its team includes specialists in learning design, instructional coaching, learning technology, and media production, all partnering with faculty to build research-based teaching assets across residential and online settings."
+  },
+  {
+    front: "Teaching Learning Lab projects mostly result in polished videos or slide decks that faculty reuse each semester.",
+    back: "TLL services span course design, accessibility audits, technology integration, Canvas support, case and field study development, instructional consultation, and multimedia production. Projects vary enormously in format. What stays constant is the design process behind them."
+  },
+  {
+    front: "Faculty hand the TLL a list of requirements and the team builds exactly what they asked for.",
+    back: "The TLL prioritizes the learner's perspective while leveraging the faculty's expertise. The partnership involves ongoing negotiation: the TLL brings design knowledge, faculty bring subject expertise, and the best work comes from that combination rather than a simple handoff."
+  },
+  {
+    front: "As a T127 student, your job is to observe how TLL professionals work and learn from watching them.",
+    back: "T127 students are active contributors to real TLL projects, not observers. You will attend project meetings, contribute to design decisions, work to real deadlines, and produce deliverables a faculty stakeholder will actually use. This is professional practice, not a simulation."
+  },
+  {
+    front: "The TLL only works on big, long-term initiatives that take years to complete.",
+    back: "The TLL runs projects at different scales simultaneously, from fully online courses serving all incoming HGSE students, to short video series, to rapid consultations with faculty. T127 students contribute to projects at all of these scales."
+  }
+];
+
+var cfuFeedbacks = {
+  1: {
+    correct: 2,
+    feedback: [
+      { type: "partial", heading: "Close, but think a bit further", text: "Behaviorism does emphasize feedback, but it works best for reinforcing specific, observable behaviors, like answering a quiz correctly. Peer feedback on writing involves judgment, interpretation, and meaning-making in context, which points to a different theory." },
+      { type: "partial", heading: "Partly right", text: "Cognitivism does support connecting new skills to prior knowledge, and that is valuable here. But this activity is really about actively constructing judgment in a real social context, which goes a step beyond just connecting information structures." },
+      { type: "correct", heading: "That is right", text: "Constructivism is the best fit here. Students are not just memorizing rules or organizing information. They are building judgment about what good writing looks like by actively engaging with real drafts in a social, authentic context. That is constructivism in action." },
+      { type: "partial", heading: "Not quite", text: "Classical learning theories absolutely apply here. Peer feedback is a well-studied instructional strategy that draws particularly on constructivist principles, specifically active meaning-making in authentic, social contexts." }
+    ]
+  },
+  2: {
+    correct: 1,
+    feedback: [
+      { type: "partial", heading: "That is a real concern, but not the first one", text: "Length matters, but the deeper issue here is about how novice learners process new information. Even a short reading can overwhelm if it assumes prior knowledge that students do not yet have." },
+      { type: "correct", heading: "That is right", text: "Research on novice-to-expert development consistently shows that novice learners need structured scaffolding to build knowledge, not open-ended discovery tasks. Asking students to figure out the themes themselves works for experts who already have organized knowledge schemas. For novices, it often leads to confusion and surface-level engagement." },
+      { type: "partial", heading: "Not quite the right framing", text: "Prescribing the themes in advance could actually undermine critical thinking. The better move is to scaffold how students approach the readings, without removing their agency entirely." },
+      { type: "partial", heading: "This is a common assumption worth questioning", text: "Being at a graduate school does not automatically make someone an expert in a new field. Students entering T127 are novices to learning design, regardless of their prior academic experience." }
+    ]
+  },
+  3: {
+    correct: 1,
+    feedback: [
+      { type: "partial", heading: "Not quite", text: "Intrinsic load refers to the inherent complexity of the content itself. The content here might be complex, but the problem described is coming from how it is presented, not from the content's complexity." },
+      { type: "correct", heading: "That is right", text: "Extraneous load is load caused by poor design, not by the content itself. Presenting the same information redundantly across text, diagram, and audio simultaneously forces the brain to process multiple streams at once, consuming working memory without adding to learning. Eliminating that redundancy is a core design decision." },
+      { type: "partial", heading: "Not quite", text: "Germane load is actually a good thing. It is the productive effort of building mental connections. The problem in this scenario is unnecessary cognitive demand from the design itself, which is extraneous load." },
+      { type: "partial", heading: "This is a well-established myth worth unlearning", text: "More information in more formats does not always help. Cognitive load theory shows that when working memory is overwhelmed, learning actually decreases. Less, designed well, often produces more learning." }
+    ]
+  },
+  4: {
+    correct: 2,
+    feedback: [
+      { type: "partial", heading: "Platform comes later in the process", text: "Platform choice is important, but in Backwards Design it follows from the outcome and assessment decisions, not the other way around. Starting with platform often leads to design choices driven by what the tool can do rather than what the learner needs." },
+      { type: "partial", heading: "Content coverage is a common starting point, but not in Backwards Design", text: "Starting with what should be covered is how most faculty naturally approach course design. Backwards Design deliberately flips this, because what you cover should be determined by what you want learners to be able to do." },
+      { type: "correct", heading: "That is right", text: "Backwards Design starts with the end in mind: what should learners be able to do or demonstrate? Everything else, including assessments, activities, and content, flows from that answer. This is the key shift in thinking that T127 will ask you to practice." },
+      { type: "partial", heading: "Length is a constraint, not a starting point", text: "Time constraints matter and will affect your design, but they are not where you begin. In Backwards Design, you start with outcomes, then determine what evidence of learning looks like, then plan the experiences that will get learners there." }
+    ]
+  }
+};
+
+/* ── STATE ── */
+var currentCard = 0;
+var isFlipped = false;
+var confidenceSelected = false;
+var cfuState = { 1: null, 2: null, 3: null, 4: null };
+var activeTab = 0;
+
+/* ── NAVIGATION ── */
+var sectionIds = ['sec0','sec1','sec2','sec3','sec4','sec5'];
+var progressPcts = [0, 15, 40, 65, 85, 100];
+
+function goTo(n) {
+  sectionIds.forEach(function(id) {
+    var el = document.getElementById(id);
+    el.classList.remove('active');
+    el.setAttribute('aria-hidden', 'true');
+  });
+  var target = document.getElementById(sectionIds[n]);
+  target.classList.add('active');
+  target.removeAttribute('aria-hidden');
+  document.getElementById('headerProgressFill').style.width = progressPcts[n] + '%';
+  document.getElementById('headerProgressPct').textContent = progressPcts[n] + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── CONFIDENCE ── */
+function selectConfidence(level) {
+  document.getElementById('confLow').className = 'conf-btn';
+  document.getElementById('confMid').className = 'conf-btn';
+  document.getElementById('confHigh').className = 'conf-btn';
+  if (level === 'low') document.getElementById('confLow').className = 'conf-btn selected-low';
+  else if (level === 'mid') document.getElementById('confMid').className = 'conf-btn selected-mid';
+  else document.getElementById('confHigh').className = 'conf-btn selected';
+  confidenceSelected = true;
+}
+
+/* ── CARDS ── */
+function renderCard() {
+  document.getElementById('cardFront').textContent = cards[currentCard].front;
+  document.getElementById('cardBack').textContent = cards[currentCard].back;
+  document.getElementById('cardCounter').textContent = (currentCard + 1) + ' of ' + cards.length;
+  var inner = document.getElementById('cardInner');
+  inner.classList.remove('flipped');
+  isFlipped = false;
+  // Reset confidence
+  document.getElementById('confLow').className = 'conf-btn';
+  document.getElementById('confMid').className = 'conf-btn';
+  document.getElementById('confHigh').className = 'conf-btn';
+  confidenceSelected = false;
+  document.getElementById('prevBtn').disabled = (currentCard === 0);
+  document.getElementById('nextBtn').disabled = (currentCard === cards.length - 1);
+  var dotsEl = document.getElementById('cardDots');
+  dotsEl.innerHTML = '';
+  for (var i = 0; i < cards.length; i++) {
+    var d = document.createElement('button');
+    d.className = 'card-dot' + (i === currentCard ? ' active' : '');
+    d.setAttribute('aria-label', 'Go to card ' + (i + 1));
+    (function(idx) { d.onclick = function(e) { e.stopPropagation(); currentCard = idx; renderCard(); }; })(i);
+    dotsEl.appendChild(d);
+  }
+}
+
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('cardInner').classList.toggle('flipped', isFlipped);
+}
+
+function prevCard() { if (currentCard > 0) { currentCard--; renderCard(); } }
+function nextCard() { if (currentCard < cards.length - 1) { currentCard++; renderCard(); } }
+function handleCardKey(e) {
+  if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); flipCard(); }
+  if (e.key === 'ArrowRight') { e.preventDefault(); nextCard(); }
+  if (e.key === 'ArrowLeft') { e.preventDefault(); prevCard(); }
+}
+
+/* ── CFU ── */
+function selectCFU(questionNum, optionIdx, isCorrect) {
+  if (cfuState[questionNum] !== null) return;
+  cfuState[questionNum] = optionIdx;
+  var wrap = document.getElementById('cfu' + questionNum);
+  var opts = wrap.querySelectorAll('.mc-option');
+  opts.forEach(function(o) { o.classList.add('locked'); });
+  opts[optionIdx].classList.add(isCorrect ? 'selected' : 'wrong');
+  var fbData = cfuFeedbacks[questionNum];
+  var fb = fbData.feedback[optionIdx];
+  var fbEl = document.getElementById('fb' + questionNum);
+  var icon = isCorrect
+    ? '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" fill="#1D9E75"/><path d="M4.5 7l2 2 3-3" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    : '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" fill="#FAC775"/><path d="M7 4v3M7 9.5v.5" stroke="#5E3508" stroke-width="1.4" stroke-linecap="round"/></svg>';
+  fbEl.className = 'feedback-box show ' + (isCorrect ? 'feedback-correct' : 'feedback-partial');
+  fbEl.innerHTML = '<div class="feedback-heading">' + icon + fb.heading + '</div>' + fb.text;
+  // highlight correct if wrong
+  if (!isCorrect) {
+    opts[fbData.correct].classList.add('selected');
+    opts[fbData.correct].querySelector('.mc-letter').style.background = 'var(--teal)';
+    opts[fbData.correct].querySelector('.mc-letter').style.color = 'white';
+    opts[fbData.correct].querySelector('.mc-letter').style.borderColor = 'var(--teal)';
+  }
+}
+
+/* ── REFLECTION TABS ── */
+function switchTab(idx) {
+  var tabs = document.querySelectorAll('.reflect-tab');
+  var panels = document.querySelectorAll('.reflect-panel');
+  tabs.forEach(function(t, i) { t.classList.toggle('active', i === idx); });
+  panels.forEach(function(p, i) { p.classList.toggle('active', i === idx); });
+  activeTab = idx;
+  // Reset submission state if switching tabs
+  document.getElementById('reflectionText').value = '';
+  document.getElementById('wordCount').textContent = '0 words';
+  document.getElementById('aiResponse').classList.remove('show');
+  document.getElementById('submitBtn').style.display = 'inline-flex';
+  document.getElementById('completeBtn').style.display = 'none';
+}
+
+/* ── REFLECTION ── */
+function updateWordCount() {
+  var text = document.getElementById('reflectionText').value.trim();
+  var words = text ? text.split(/\s+/).length : 0;
+  document.getElementById('wordCount').textContent = words + (words === 1 ? ' word' : ' words');
+}
+
+var reflectionFeedbacks = [
+  "Thank you for sharing this. The self-awareness you are bringing to your own learning history is exactly the kind of thinking that makes a good learning designer. When you can recognize which theory shaped your own experiences, and what that felt like from the inside, you start building the empathy needed to design for learners who come from very different backgrounds. That empathy will be one of your most important tools in T127.",
+  "Thank you for this. Locating yourself on the spectrum is itself an act of metacognition, the kind of self-monitoring that research tells us distinguishes stronger learners. The fact that you are already asking this question suggests you are starting to think like a designer. T127 is structured to give you scaffolding, feedback, and progressively more complex challenges that will support your development throughout the semester.",
+  "Thank you for sharing this. The distinction you are drawing between a content problem and a design problem is one of the most important moves a learning designer makes. Faculty often assume that when students are confused, the content is too hard. Designers ask a different question: was the learning experience itself set up to support understanding? Your instinct to look at the design is exactly right, and it will serve you well in T127."
+];
+
+function submitReflection() {
+  var text = document.getElementById('reflectionText').value.trim();
+  if (!text) { document.getElementById('reflectionText').focus(); return; }
+  document.getElementById('submitBtn').style.display = 'none';
+  document.getElementById('completeBtn').style.display = 'inline-flex';
+  document.getElementById('aiResponseText').textContent = reflectionFeedbacks[activeTab];
+  document.getElementById('aiResponse').classList.add('show');
+}
+
+/* ── SLIDER ── */
+var sliderFeedbacks = [
+  {
+    correct: "disagree",
+    heading: "Not quite",
+    text: "A portfolio is much more than a showcase of polished finished work. In T127 it holds artifacts at all stages of development, your reflections, connections to readings, and evidence of your thinking process. The value is in showing how you think and grow as a designer, not just what you produced at the end."
+  },
+  {
+    correct: "disagree",
+    heading: "Worth rethinking",
+    text: "The best portfolios in T127 are built continuously throughout the semester, not assembled at the last minute when assignments are due. Adding a reflection after a project meeting, a thought after a reading, or a connection to something from class takes only a few minutes and produces a much richer record of your learning over time."
+  },
+  {
+    correct: "disagree",
+    heading: "Not quite",
+    text: "The platform is the container, not the content. A well-organized Google Slides deck with thoughtful reflections and strong artifacts will impress an employer far more than a beautifully designed website with thin content. Choose a platform based on what suits your workflow and audience, not on how impressive the tool sounds."
+  },
+  {
+    correct: "disagree",
+    heading: "Worth rethinking",
+    text: "A portfolio reflection is not a summary of what you did. It is an analysis of what you learned and how your thinking changed. The difference is significant: a summary describes events, while a reflection connects those events to course concepts, design decisions, and your development as a learning designer. Reflections are where the real learning becomes visible."
+  },
+  {
+    correct: "disagree",
+    heading: "Not quite",
+    text: "Your portfolio serves three audiences at once: your instructor, who uses it to evaluate your learning; future employers, who use it to assess your professional skills; and yourself, as a record of your own growth across the semester. Building it with only one audience in mind means missing the other two entirely."
+  }
+];
+
+function updateSliderColor(idx) {
+  var val = parseInt(document.getElementById('slider' + idx).value);
+  var color = val < 40 ? 'var(--coral-dark)' : val > 60 ? 'var(--teal)' : 'var(--amber-dark)';
+  document.getElementById('slider' + idx).style.accentColor = color;
+}
+
+function revealSlider(idx) {
+  var fb = sliderFeedbacks[idx];
+  var el = document.getElementById('sfb' + idx);
+  el.style.display = 'block';
+  el.style.background = 'var(--warn-light)';
+  el.style.border = '1px solid rgba(250,199,117,0.5)';
+  el.style.color = 'var(--warn-dark)';
+  el.innerHTML = '<div style="font-size:13px;font-weight:600;margin-bottom:0.3rem;display:flex;align-items:center;gap:6px;"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" fill="#FAC775"/><path d="M7 4v3M7 9.5v.5" stroke="#5E3508" stroke-width="1.4" stroke-linecap="round"/></svg>' + fb.heading + '</div>' + fb.text;
+  document.getElementById('revealBtn' + idx).style.display = 'none';
+  document.getElementById('slider' + idx).disabled = true;
+}
+
+/* ── PLATFORM MATCHER ── */
+var pmAnswers = { 1: null, 2: null };
+
+var pmResults = {
+  'low-internal':   { label: 'Google or Office Slides', color: 'var(--blue-light)', textColor: 'var(--blue-dark)', desc: 'A simple slide deck is a great starting point. You already know the tools, the format is familiar, and it lets you focus your energy on the content of your portfolio rather than building the platform. You can always migrate to a web-based tool later.' },
+  'low-employers':  { label: 'Google Sites', color: 'var(--teal-light)', textColor: 'var(--teal-dark)', desc: 'Google Sites gives you a clean, professional-looking web presence without requiring any technical skills. It connects easily with other Google tools you likely already use, and it looks polished to an outside audience without much setup time.' },
+  'low-both':       { label: 'Google Sites', color: 'var(--teal-light)', textColor: 'var(--teal-dark)', desc: 'Google Sites is a strong choice here. It is easy enough to set up quickly for course purposes, and professional enough to share with employers. You get the best of both without needing any web development experience.' },
+  'mid-internal':   { label: 'Google Sites or Wix', color: 'var(--teal-light)', textColor: 'var(--teal-dark)', desc: 'Either option works well for you. Google Sites is faster to get started with. Wix gives you more design flexibility if you want to invest a bit more time in how it looks. Both are accessible without technical expertise.' },
+  'mid-employers':  { label: 'Wix', color: 'var(--purple-light)', textColor: 'var(--purple-dark)', desc: 'Wix gives you a professionally designed site with enough flexibility to make it feel personal and distinctive. It is a good middle ground between ease of use and a polished result, which is what employers appreciate.' },
+  'mid-both':       { label: 'Wix', color: 'var(--purple-light)', textColor: 'var(--purple-dark)', desc: 'Wix handles both purposes well. It is approachable enough to set up without frustration, and it produces a result that looks professional to an external audience. A good all-around choice for your situation.' },
+  'high-internal':  { label: 'WordPress or Wix', color: 'var(--purple-light)', textColor: 'var(--purple-dark)', desc: 'You have the comfort level to use either. If you want full control over the design and structure, WordPress is the most powerful option. If you want speed and flexibility without server management, Wix is a strong alternative.' },
+  'high-employers': { label: 'WordPress', color: 'var(--amber-light)', textColor: 'var(--amber-dark)', desc: 'WordPress gives you the most control and the most professional ceiling of any of the options. If you are comfortable building on the web, a well-designed WordPress portfolio will stand out to employers in the learning design field.' },
+  'high-both':      { label: 'WordPress', color: 'var(--amber-light)', textColor: 'var(--amber-dark)', desc: 'Given your comfort level and dual audience, WordPress is your best option. It scales well, looks professional, and gives you the flexibility to organize your work exactly how you want it for both course and career purposes.' }
+};
+
+function selectPM(question, answer) {
+  pmAnswers[question] = answer;
+  var opts;
+  if (question === 1) {
+    opts = ['pmA1a','pmA1b','pmA1c'];
+    opts.forEach(function(id) {
+      document.getElementById(id).classList.remove('selected');
+      document.getElementById(id).classList.add('locked');
+    });
+    var map = { low: 'pmA1a', mid: 'pmA1b', high: 'pmA1c' };
+    document.getElementById(map[answer]).classList.add('selected');
+    setTimeout(function() {
+      document.getElementById('pmQ2').style.display = 'block';
+      document.getElementById('pmQ2').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 300);
+  } else {
+    opts = ['pmA2a','pmA2b','pmA2c'];
+    opts.forEach(function(id) {
+      document.getElementById(id).classList.remove('selected');
+      document.getElementById(id).classList.add('locked');
+    });
+    var map2 = { internal: 'pmA2a', employers: 'pmA2b', both: 'pmA2c' };
+    document.getElementById(map2[answer]).classList.add('selected');
+    var key = pmAnswers[1] + '-' + answer;
+    var result = pmResults[key];
+    var el = document.getElementById('pmResult');
+    el.style.display = 'block';
+    el.style.background = result.color;
+    el.style.border = '1px solid rgba(0,0,0,0.07)';
+    el.innerHTML = '<div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;color:' + result.textColor + ';margin-bottom:0.5rem;">Suggested platform</div>'
+      + '<div style="font-size:16px;font-weight:700;color:' + result.textColor + ';margin-bottom:0.6rem;">' + result.label + '</div>'
+      + '<div style="font-size:13px;color:var(--text);line-height:1.65;">' + result.desc + '</div>'
+      + '<div style="font-size:12px;color:var(--text-3);margin-top:0.75rem;">Remember: the platform is just the container. What matters is the thinking inside it.</div>';
+    setTimeout(function() {
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }, 300);
+  }
+}
+renderCard();
+document.getElementById('sec0').removeAttribute('aria-hidden');
+</script>
+</body>
+</html>
