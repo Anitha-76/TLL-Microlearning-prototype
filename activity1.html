@@ -1,0 +1,348 @@
+<style>
+.tll-cards-wrap {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 1rem 0;
+  }
+
+  .tll-act-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .tll-act-meta {
+    font-size: 12px;
+    font-weight: 600;
+    color: #9b9b9b;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.4rem;
+  }
+
+  .tll-act-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1a1a1a;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.4rem;
+  }
+
+  .tll-act-subtitle {
+    font-size: 14px;
+    color: #5c5c5c;
+    line-height: 1.65;
+  }
+
+  .tll-card-counter {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #5c5c5c;
+    margin-bottom: 0.9rem;
+  }
+
+  .tll-card-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 1rem;
+  }
+
+  .tll-nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 0;
+    flex-shrink: 0;
+    font-family: inherit;
+  }
+
+  .tll-nav-btn:disabled { cursor: default; }
+
+  .tll-nav-circle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid rgba(0,0,0,0.16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff;
+    color: #5c5c5c;
+    transition: all 0.18s;
+  }
+
+  .tll-nav-btn:not(:disabled):hover .tll-nav-circle {
+    border-color: #1D9E75;
+    color: #1D9E75;
+    background: #E0F4EC;
+  }
+
+  .tll-nav-btn:disabled .tll-nav-circle {
+    border-color: rgba(0,0,0,0.09);
+    color: rgba(0,0,0,0.16);
+  }
+
+  .tll-nav-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: #9b9b9b;
+  }
+
+  .tll-nav-btn:disabled .tll-nav-label { color: rgba(0,0,0,0.16); }
+
+  .tll-card-container {
+    perspective: 1200px;
+    cursor: pointer;
+    flex: 1;
+    min-width: 0;
+    outline: none;
+    position: relative;
+    transition: transform 0.2s ease;
+  }
+
+  .tll-card-container:hover { transform: translateY(-3px); }
+
+  .tll-card-inner {
+    position: relative;
+    width: 100%;
+    min-height: 240px;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(.4,0,.2,1);
+  }
+
+  .tll-card-inner.flipped { transform: rotateY(180deg); }
+
+  .tll-card-face {
+    position: absolute;
+    width: 100%;
+    min-height: 240px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.10), 0 0 0 0.5px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .tll-card-front {
+    background: linear-gradient(150deg, #fffbf9 0%, #fff0e9 100%);
+  }
+
+  .tll-card-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(150deg, #f4fbf8 0%, #e6f7ef 100%);
+  }
+
+  .tll-card-header {
+    padding: 0.9rem 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(0,0,0,0.07);
+  }
+
+  .tll-card-front .tll-card-header {
+    background: rgba(146,47,21,0.055);
+    border-bottom-color: rgba(146,47,21,0.10);
+  }
+
+  .tll-card-back .tll-card-header {
+    background: rgba(15,110,86,0.055);
+    border-bottom-color: rgba(15,110,86,0.10);
+  }
+
+  .tll-type-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .dot-myth { background: #922F15; }
+  .dot-reality { background: #1D9E75; }
+
+  .tll-type-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .label-myth { color: #922F15; }
+  .label-reality { color: #0F6E56; }
+
+  .tll-card-body {
+    flex: 1;
+    padding: 1.25rem 1.5rem;
+    font-size: 15px;
+    color: #1a1a1a;
+    line-height: 1.72;
+    display: flex;
+    align-items: center;
+  }
+
+  .tll-card-footer {
+    padding: 0.65rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 12px;
+    border-top: 1px solid rgba(0,0,0,0.07);
+  }
+
+  .tll-card-front .tll-card-footer { color: rgba(146,47,21,0.5); }
+  .tll-card-back .tll-card-footer { color: rgba(15,110,86,0.55); }
+
+  .tll-dots-row {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 0.25rem;
+  }
+
+  .tll-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.16);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    border: none;
+    padding: 0;
+  }
+
+  .tll-dot:hover { transform: scale(1.25); background: #9b9b9b; }
+  .tll-dot.active { background: #1D9E75; transform: scale(1.15); }
+
+  @media (max-width: 520px) {
+    .tll-nav-circle { width: 38px; height: 38px; }
+    .tll-card-row { gap: 8px; }
+    .tll-act-title { font-size: 20px; }
+  }
+</style>
+
+<div class="tll-cards-wrap">
+
+  <div class="tll-act-header">
+    <div class="tll-act-meta">Activity 1 · 5 min</div>
+    <div class="tll-act-title">Know the TLL</div>
+    <div class="tll-act-subtitle">Flip each card to separate myth from reality about how the TLL works and what your role will be in T127.</div>
+  </div>
+
+  <div class="tll-card-counter" id="tll-counter">1 of 3</div>
+
+  <div class="tll-card-row">
+    <button class="tll-nav-btn" id="tll-prev" onclick="tllPrev()" disabled aria-label="Previous card">
+      <div class="tll-nav-circle">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M12 5l-5 5 5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="tll-nav-label">Previous</span>
+    </button>
+
+    <div class="tll-card-container" onclick="tllFlip()" tabindex="0" role="button" aria-label="Flip card" onkeydown="if(event.key===' '||event.key==='Enter'){event.preventDefault();tllFlip();}">
+      <div class="tll-card-inner" id="tll-inner">
+
+        <div class="tll-card-face tll-card-front">
+          <div class="tll-card-header">
+            <div class="tll-type-dot dot-myth"></div>
+            <span class="tll-type-label label-myth">Myth</span>
+          </div>
+          <div class="tll-card-body"><span id="tll-front-text"></span></div>
+          <div class="tll-card-footer">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M3 6.5h7M7.5 4l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Tap to reveal the reality
+          </div>
+        </div>
+
+        <div class="tll-card-face tll-card-back">
+          <div class="tll-card-header">
+            <div class="tll-type-dot dot-reality"></div>
+            <span class="tll-type-label label-reality">Reality</span>
+          </div>
+          <div class="tll-card-body"><span id="tll-back-text"></span></div>
+          <div class="tll-card-footer">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+              <path d="M10 6.5H3M5.5 4L3 6.5l2.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Tap to flip back
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <button class="tll-nav-btn" id="tll-next" onclick="tllNext()" aria-label="Next card">
+      <div class="tll-nav-circle">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M8 5l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="tll-nav-label">Next</span>
+    </button>
+  </div>
+
+  <div class="tll-dots-row" id="tll-dots"></div>
+
+</div>
+
+<script>
+var tllCards = [
+    {
+      front: "The Teaching Learning Lab is basically a tech support team that helps faculty set up their Canvas courses.",
+      back: "The TLL consists of a team of people to provide full-service learning design and development for a course. The team includes specialists in learning design, instructional coaching, learning technology, and media production, all partnering with faculty to build research-based teaching assets across residential and online settings."
+    },
+    {
+      front: "Faculty hands over the TLL team a list of requirements and they build exactly what they asked for.",
+      back: "The TLL prioritizes the learner's perspective while leveraging the faculty's expertise. The partnership involves ongoing negotiation: the TLL brings design knowledge, faculty bring subject expertise, and the best work comes from that combination rather than a simple handoff."
+    },
+    {
+      front: "As a T127 student, my job is to observe the projects that TLL professionals built and learn from that.",
+      back: "T127 students are active contributors to real TLL projects, not observers. You will attend project meetings, contribute to design decisions, work to real deadlines, and produce deliverables a faculty stakeholder will actually use. This is professional practice, not a simulation."
+    }
+  ];
+
+  var tllCurrent = 0;
+  var tllFlipped = false;
+
+  function tllRender() {
+    document.getElementById('tll-front-text').textContent = tllCards[tllCurrent].front;
+    document.getElementById('tll-back-text').textContent = tllCards[tllCurrent].back;
+    document.getElementById('tll-counter').textContent = (tllCurrent + 1) + ' of ' + tllCards.length;
+    document.getElementById('tll-inner').classList.remove('flipped');
+    tllFlipped = false;
+    document.getElementById('tll-prev').disabled = (tllCurrent === 0);
+    document.getElementById('tll-next').disabled = (tllCurrent === tllCards.length - 1);
+    var dotsEl = document.getElementById('tll-dots');
+    dotsEl.innerHTML = '';
+    for (var i = 0; i < tllCards.length; i++) {
+      var d = document.createElement('button');
+      d.className = 'tll-dot' + (i === tllCurrent ? ' active' : '');
+      d.setAttribute('aria-label', 'Go to card ' + (i + 1));
+      (function(idx) {
+        d.onclick = function(e) { e.stopPropagation(); tllCurrent = idx; tllRender(); };
+      })(i);
+      dotsEl.appendChild(d);
+    }
+  }
+
+  function tllFlip() {
+    tllFlipped = !tllFlipped;
+    document.getElementById('tll-inner').classList.toggle('flipped', tllFlipped);
+  }
+
+  function tllPrev() { if (tllCurrent > 0) { tllCurrent--; tllRender(); } }
+  function tllNext() { if (tllCurrent < tllCards.length - 1) { tllCurrent++; tllRender(); } }
+
+  tllRender();
+</script>
